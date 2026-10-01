@@ -67,9 +67,9 @@ Private transient evidence was retained under
 receipts, final terminal text, and native debug logs. These are local evidence,
 not a portable public artifact.
 
-Canonical checkouts were not changed by this acceptance run. Installation,
-default-Role convergence, and final local landing remain separate finishing
-steps; no active app or unrelated session was restarted.
+Canonical checkouts were not changed by that acceptance run. Installation,
+default-Role convergence, and final local landing were separate finishing
+steps, completed below; no active app or unrelated session was restarted.
 
 ## Recovery repair and delivery state
 
@@ -90,14 +90,58 @@ test now deterministically reproduces that defect. The integrated AgentStart
 `tests/validate.sh` passed, including 29 Devin tests/230 assertions, four
 OpenCode configuration tests, and document integrity checks.
 
-AgentACP and AgentRoles have been landed on their local main branches and their
-checkout-owned commands installed. AgentStart's clean task branch
-`worktree/acp-harness-bridge` at `e9d12b4` contains default-Role `agentacp mcp`,
-the native Claude completion Monitor, installer ordering, and the repaired
-Devin shim. It is **not yet landed or installed**: the operator explicitly kept
-the existing uncommitted Portable design family edit in
-`~/code/agentstart/skills/fleet/MAP.md` untouched. The live default Role still
-contains neither AgentACP MCP nor its Monitor. Once that checkout is resolved
-by its owner, reconcile the task branch with current main, integrate, and run
-AgentStart's supported convergence without restarting unrelated active apps.
-No remote push was requested or performed.
+AgentACP and AgentRoles were landed on their local main branches and their
+checkout-owned commands installed. AgentStart delivery initially paused at
+task commit `e9d12b4` because the operator explicitly kept the existing
+uncommitted Portable design family edit in `~/code/agentstart/skills/fleet/MAP.md`
+untouched. Its owner subsequently landed that edit as `4d54bc9`; it was merged
+without conflicts into the owned ACP task worktree and preserved in delivery.
+
+## Final local delivery
+
+AgentStart landed locally on main at `e0cc343` after the combined
+`tests/validate.sh` passed again. Document integrity and `git diff --check`
+also passed. Its canonical `scripts/install.sh --content` and
+`scripts/install-harness-shims` completed without unrelated binary upgrades
+or service/app restarts. A full fleet `--install` was deliberately not run
+within this bounded delivery, because it would upgrade unrelated components
+and can restart services.
+
+Installed-output checks confirmed:
+
+- The rendered default Role includes `${HOME}/.local/bin/agentacp mcp` and
+  the source-equivalent native `agentacp-completions` Monitor.
+- The public Devin shim binds the canonical AgentStart invocation runner and
+  the separately installed native versioned Devin executable.
+- The installed fleet map matches canonical source. Shared and default-Role
+  collab manifests preserve AgentGuidance's source template plus AgentStart's
+  intended derived `allow_implicit_invocation: false` policy.
+- A fresh interactive Claude Code **2.1.286** launched through installed
+  AgentRoles with the full installed default Role connected the AgentACP MCP
+  over stdio and displayed **1 monitor**. AgentRoles replaced an inherited
+  sentinel invocation with `a57e85b9-8ea1-4f4e-a297-f65d3c7feff2`; the native
+  Claude shell and disposable Monitor ledger agreed on that UUID. Both MCP
+  and Monitor passed the inherited Claude-only identity guard. No native
+  OpenCode/Devin ACP sessions or model prompts were submitted by this startup
+  check. Claude produced one explanatory reply after its bash-mode shell check.
+
+Both owned startup PTYs were stopped. The broker PID was verified dead before
+removing its stale private socket/lock; the unused invocation-private plugin
+was also removed. The empty native-session/run ledger, startup receipt,
+terminal text and Claude debug log remain under
+`$TMPDIR/opencode/s-33kvtxyz` as private local evidence.
+
+One separate pre-existing Codex convergence issue remains: the read-only
+`sync-skills --check` reports the installed `default@agentroles` skill copy
+stale at `agentroles/SKILL.md` and `fleet/MAP.md`. The supported
+`agentroles install <installed-default-role>` refresh refused during native
+marketplace discovery because the existing `agentroles` registration points
+to `/Volumes/Scratch/arthack-.cache/agentroles/codex-marketplace`, which has no
+supported manifest. That registry was not hand-edited or migrated. This does
+not block Claude's newly installed MCP/Monitor or Devin's shim; repairing the
+Codex registration is separate operator maintenance.
+
+Existing Claude sessions are not hot-reloaded. A new interactive
+`agentroles ~/.local/share/agentstart/resources/roles/default -- claude`
+invocation loads the installed bridge. Runtime routing guidance remains a
+later task. No remote push was requested or performed.
