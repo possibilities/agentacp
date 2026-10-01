@@ -131,17 +131,48 @@ was also removed. The empty native-session/run ledger, startup receipt,
 terminal text and Claude debug log remain under
 `$TMPDIR/opencode/s-33kvtxyz` as private local evidence.
 
-One separate pre-existing Codex convergence issue remains: the read-only
-`sync-skills --check` reports the installed `default@agentroles` skill copy
-stale at `agentroles/SKILL.md` and `fleet/MAP.md`. The supported
+One separate pre-existing Codex convergence issue remained at initial delivery:
+the read-only `sync-skills --check` reported the installed `default@agentroles`
+skill copy stale at `agentroles/SKILL.md` and `fleet/MAP.md`. The supported
 `agentroles install <installed-default-role>` refresh refused during native
-marketplace discovery because the existing `agentroles` registration points
+marketplace discovery because the existing `agentroles` registration pointed
 to `/Volumes/Scratch/arthack-.cache/agentroles/codex-marketplace`, which has no
 supported manifest. That registry was not hand-edited or migrated. This does
-not block Claude's newly installed MCP/Monitor or Devin's shim; repairing the
-Codex registration is separate operator maintenance.
+not block Claude's newly installed MCP/Monitor or Devin's shim. The operator
+subsequently authorized the bounded repair below.
 
 Existing Claude sessions are not hot-reloaded. A new interactive
 `agentroles ~/.local/share/agentstart/resources/roles/default -- claude`
 invocation loads the installed bridge. Runtime routing guidance remains a
 later task. No remote push was requested or performed.
+
+## Codex marketplace recovery
+
+The registered Scratch cache path no longer existed; the current
+`~/.cache/agentroles/codex-marketplace` already had a valid native manifest.
+This was a stale local-source registration, not a manifest-format defect.
+No source change, fork patch, automatic migration, or second installer was
+needed. On October 1, 2026, the authorized repair used only native contracts:
+
+```sh
+codex plugin marketplace remove agentroles --json
+agentroles install ~/.local/share/agentstart/resources/roles/default
+agentroles install --check ~/.local/share/agentstart/resources/roles/default
+~/code/agentstart/scripts/sync-skills --check
+codex plugin marketplace list
+```
+
+Before removal, the exact stale registration was rechecked and Codex's
+marketplace snapshot destination was confirmed absent. Native removal reported
+`installedRoot: null`; it removed the registration only. AgentRoles then
+registered the current home-relative cache root, refreshed `default@agentroles`
+through Codex, and persisted its globally disabled state.
+
+Both freshness checks now pass with `fresh: true` and empty `missing`, `extra`,
+and `changed` lists. Native marketplace discovery also succeeds. All other
+configured marketplaces, the complete persistent plugin configuration, 1,169
+unrelated installed plugin files, and the rendered marketplace roster were
+verified unchanged. Private scoped before/after receipts remain under
+`$TMPDIR/opencode/codex-role-registry-5q2yzjo2`. No active session or service
+was restarted, no account or credential state was changed, and nothing was
+pushed remotely. The Codex convergence blocker is resolved.
