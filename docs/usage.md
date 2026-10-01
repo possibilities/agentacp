@@ -160,3 +160,5 @@ harnesses and private state. It sends no real model prompts and uses no native
 credentials. Protocol/lifecycle tests do not claim interactive Claude plugin
 startup or real provider behavior; those require separately authorized
 integration validation. Read the [architecture decision](adr/0001-private-acp-broker.md).
+The [acceptance record](verification.md) distinguishes the automated, combined
+fixture, and interactive Claude evidence from live provider behavior.
