@@ -60,7 +60,7 @@ manual, and plugin Monitors do not start in noninteractive `claude -p`.
 
 Both owned PTY sessions were stopped, the owned disposable broker shut down
 and removed its socket, and AgentStart cleanup removed four ended snapshot
-references, including the deliberately failed fixture's partial snapshot.
+references, including the failed fixture's partial snapshot.
 No test session or `.devin` snapshot remained at either disposable target.
 Private transient evidence was retained under
 `$TMPDIR/opencode/p-bO1QU5`: combined receipts, interactive admission/final
@@ -70,3 +70,34 @@ not a portable public artifact.
 Canonical checkouts were not changed by this acceptance run. Installation,
 default-Role convergence, and final local landing remain separate finishing
 steps; no active app or unrelated session was restarted.
+
+## Recovery repair and delivery state
+
+An initially incomplete stdio MCP fixture exposed a real Devin snapshot
+admission defect: repairing the Role did not
+make an early ownership marker a completed snapshot. AgentStart task commit
+`9cc8247` now requires the original generation writer's completed manifest before
+joining. The public-shim regression failed on the prior code, then passed for
+both session/new and session/load, including merges beside foreign files.
+The combined two-owner/two-harness proof was rerun successfully after this
+repair; the owned broker and its one snapshot reference were cleaned afterward.
+
+The final AgentStart gate also exposed a pre-existing OpenCode configuration
+race: its own read advanced atime and was incorrectly treated as an external
+edit. Task commit `e9d12b4` excludes atime while retaining identity, permissions,
+size, and nanosecond write/change-time guards. The existing executable merge
+test now deterministically reproduces that defect. The integrated AgentStart
+`tests/validate.sh` passed, including 29 Devin tests/230 assertions, four
+OpenCode configuration tests, and document integrity checks.
+
+AgentACP and AgentRoles have been landed on their local main branches and their
+checkout-owned commands installed. AgentStart's clean task branch
+`worktree/acp-harness-bridge` at `e9d12b4` contains default-Role `agentacp mcp`,
+the native Claude completion Monitor, installer ordering, and the repaired
+Devin shim. It is **not yet landed or installed**: the operator explicitly kept
+the existing uncommitted Portable design family edit in
+`~/code/agentstart/skills/fleet/MAP.md` untouched. The live default Role still
+contains neither AgentACP MCP nor its Monitor. Once that checkout is resolved
+by its owner, reconcile the task branch with current main, integrate, and run
+AgentStart's supported convergence without restarting unrelated active apps.
+No remote push was requested or performed.
