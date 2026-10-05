@@ -1,6 +1,6 @@
 # AgentACP
 
-Read `CONTEXT.md`, `docs/usage.md`, and `docs/adr/0001-private-acp-broker.md`.
+Read `GLOSSARY.md`, `docs/usage.md`, and `docs/adr/0001-private-acp-broker.md`.
 Work in an owned task worktree, never in the canonical checkout or on main.
 
 - Bun/TypeScript; `bun install --frozen-lockfile`, `bun run check`, `git diff --check`.
